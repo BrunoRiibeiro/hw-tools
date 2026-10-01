@@ -2,7 +2,7 @@
 
 JSON_FILE=$1
 CSV_FILE="${JSON_FILE%%.json}.csv"
-SC_CSV_FILE="${JSON_FILE%%.json}-semicoolon.csv"
+SC_CSV_FILE="${JSON_FILE%%.json}-semicolon.csv"
 
 if ! command -v jq &> /dev/null; then
 	echo "Erro: jq not installed." >&2
@@ -21,4 +21,4 @@ rows=$(jq -r '(.datas // .vdcs)[] | [.[]] | @csv' "$JSON_FILE")
 
 sed 's/,/;/g' "$CSV_FILE" > "$SC_CSV_FILE"
 
-echo "Conversão concluída: $CSV_FILE"
+echo "Conversion complete: $CSV_FILE"

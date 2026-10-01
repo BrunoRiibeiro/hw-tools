@@ -25,7 +25,7 @@ def set_cell_border(cell, border_color="000000", border_size="4"):
 parser = argparse.ArgumentParser(description="Process command-line arguments for the script.")
 parser.add_argument('wetask_table', help='Input XLSX file from WeTask')
 parser.add_argument('sr_table', help='Input XLSX file with Ongoing SRs')
-parser.add_argument('--out-file', default="output.docx", help='Output file name (default: output.docx)')
+parser.add_argument('-o', '--out-file', default="output.docx", help='Output file name (default: output.docx)')
 args = parser.parse_args()
 
 wetask_table = args.wetask_table
@@ -39,7 +39,7 @@ SR_SERVICE = 1
 SR_NAME = 2
 SR_PROGRESS= 3
 SR_NUMB = 5
-SR_STATUS = 9
+SR_STATUS = 7 # ecare file
 SR_CATEGORY = 12
 #SR_NEXTSTEPS = 12
 
@@ -64,7 +64,7 @@ for r in df.itertuples(index=False):
 	wetask_map[sr_key] = {
 			"Issue": r[SR_NAME],
 			"Progress/Solution": r[SR_PROGRESS],
-			"Status": r[SR_STATUS],
+			# "Status": r[SR_STATUS],
 			"Service": r[SR_SERVICE],
 			"Category": r[SR_CATEGORY],
 			}
@@ -72,6 +72,7 @@ for r in df.itertuples(index=False):
 # Monta as linhas no DOCX a partir da tabela ongoing
 for r in dz.itertuples(index=False):
 	ticket_sr = r[SRs]
+	ticket_sr_status = r[SR_STATUS]
 	if pd.isna(ticket_sr):
 		continue
 
@@ -83,7 +84,8 @@ for r in dz.itertuples(index=False):
 	if wetask_data:
 		new_cells[1].text = to_text(wetask_data["Issue"])
 		new_cells[2].text = to_text(wetask_data["Progress/Solution"])
-		new_cells[3].text = to_text(wetask_data["Status"])
+		# new_cells[3].text = to_text(wetask_data["Status"])
+		new_cells[3].text = to_text(ticket_sr_status)
 		new_cells[3].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 		new_cells[4].text = to_text(wetask_data["Service"])
 		new_cells[4].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER

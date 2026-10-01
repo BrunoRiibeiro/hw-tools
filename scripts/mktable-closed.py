@@ -25,7 +25,7 @@ def set_cell_border(cell, border_color="000000", border_size="4"):
 parser = argparse.ArgumentParser(description="Process command-line arguments for the script.")
 parser.add_argument('wetask_table', help='Input XLSX file from WeTask')
 parser.add_argument('sr_table', help='Input XLSX file with SRs')
-parser.add_argument('--out-file', default="output.docx", help='Output file name (default: output.docx)')
+parser.add_argument('-o', '--out-file', default="output.docx", help='Output file name (default: output.docx)')
 args = parser.parse_args()
 
 wetask_table = args.wetask_table
